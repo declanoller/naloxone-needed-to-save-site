@@ -1,0 +1,194 @@
+
+body {
+  background-color: #f2f2f2;
+  font-family: sans-serif;
+}
+
+#map_path:hover {
+	fill-opacity: .5;
+}
+
+.myXaxis {
+  font: 14px sans-serif;
+}
+
+.myYaxis {
+  font: 14px sans-serif;
+}
+
+
+.title {
+  font-size: x-large;
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+
+#header_links {
+  height: 40px;
+}
+
+
+.container {
+  display: flex;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2), 2px 2px 2px 2px rgba(0, 0, 0, 0.19);
+  margin-top: 8px;
+  padding-bottom: 5px;
+
+}
+
+#thinbar {
+  background-color: white;
+
+  flex-grow: 1;
+  height: 30px;
+}
+
+.item {
+  background-color: white;
+  flex: 1;
+  margin-top: 0.5%;
+  margin-bottom: 0.5%;
+  margin-left: 0.5%;
+  margin-right: 0.5%;
+  border-radius: 5px;
+
+
+}
+
+.item + .item {
+  margin-left: 1%;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+
+#state_map_legend_box {
+
+  text-align: right;
+}
+
+#state_info_summary {
+
+}
+
+#stats_state_label {
+  font-size: x-large;
+  text-align: left;
+  margin-left: 5px;
+}
+
+#state_stats_overview {
+  margin-top: 1%;
+  margin-bottom: 1%;
+  margin-left: 5px;
+  margin-right: 1%;
+}
+
+
+#map_legend_info_container {
+}
+
+
+#state_map {
+  flex: 0;
+}
+
+#state_map_column {
+  width: 30%;
+}
+
+
+.plot_section {
+  display: flex;
+  flex-direction: column;
+}
+
+.plot_row {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+
+.plot_section_title {
+  flex: 0;
+  height: 50px;
+  font-size: x-large;
+  text-align: center;
+  margin-top: 10px;
+}
+.plot_container {
+  flex: 1;
+  margin-bottom: 5px;
+}
+
+
+
+
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    outline: 0;
+    background: #7babdb;
+    background-image: none;
+    border:1px solid black;
+    font-size: 16px;
+}
+#selectButtonDiv {
+    position: relative;
+    display: block;
+    width: 20em;
+    height: 3em;
+    line-height: 3;
+    background: #7babdb;
+    overflow: hidden;
+    border-radius: .25em;
+    text-align: center;
+    margin: auto;
+}
+select {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0 0 0 .5em;
+    color: white;
+    cursor: pointer;
+}
+select::-ms-expand {
+    display: none;
+}
+#selectButtonDiv::after {
+    content: '\25BC';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0 1em;
+    background: #7babdb;
+    pointer-events: none;
+    border:1px solid black;
+}
+#selectButtonDiv:hover::after {
+    color: #F39C12;
+}
+
+<!-- For different browsers -->
+#selectButtonDiv::after {
+    -webkit-transition: .25s all ease;
+    -o-transition: .25s all ease;
+    transition: .25s all ease;
+}

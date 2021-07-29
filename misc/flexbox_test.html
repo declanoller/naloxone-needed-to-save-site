@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style type="text/css">
+
+body {
+  background-color: #e6f7ff;
+}
+
+.container {
+  display: flex;
+}
+
+.thinbar {
+  background-color: #ccddff;
+  flex-grow: 1;
+  height: 50px;
+  margin-top: 1%;
+}
+
+.item {
+  background-color: #ccddff;
+  flex-grow: 1;
+  height: 200px;
+  margin-top: 1%;
+  margin-left: 1%;
+  margin-right: 1%;
+}
+
+.item + .item {
+  margin-left: 1%;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="container" id="title_bar">
+  <div class="thinbar"></div>
+</div>
+
+<div class="container" id="header_links">
+  <div class="item"></div>
+</div>
+
+<div class="container" id="state_sel_bar">
+  <div class="thinbar"></div>
+</div>
+
+
+
+
+<div class="container">
+  <div class="item"></div>
+  <div class="item"></div>
+  <div class="item"></div>
+</div>
+
+
+</body>
+
+</html>
