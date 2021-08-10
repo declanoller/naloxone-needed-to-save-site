@@ -1,12 +1,32 @@
+
 function stateStatsOverview(data, state){
 
+  
   if (Object.keys(data).includes(state)) {
-    var text = ("<br/>Total deaths: " + data[state]["data_overview"]["yearly_deaths"]);
-    text += ("<br/>Fentanyl deaths: " + data[state]["data_overview"]["yearly_fentanyl_deaths"]);
-    text += ("<br/>Heroin deaths: " + data[state]["data_overview"]["yearly_heroin_deaths"]);
-    text += ("<br/>prescriber-based kits deaths: " + data[state]["data_overview"]["yearly_rx_deaths"]);
-    text += ("<br/>community based program kits distributed: " + data[state]["data_overview"]["yearly_THN_kits_dist"]);
-    text += ("<br/>Naloxone kits used: " + data[state]["data_overview"]["kits_used"]);
+    var yearly_deaths = data[state]["data_overview"]["yearly_deaths"];
+    var yearly_fentanyl_deaths = data[state]["data_overview"]["yearly_fentanyl_deaths"];
+    var yearly_heroin_deaths = data[state]["data_overview"]["yearly_heroin_deaths"];
+    var yearly_rx_deaths = data[state]["data_overview"]["yearly_rx_deaths"];
+    var yearly_THN_kits_distributed = data[state]["data_overview"]["yearly_THN_kits_dist"];
+    var kits_used = data[state]["data_overview"]["kits_used"];  
+    
+    if(!is_model_state(data,state)){
+    var yearly_deaths = "-";
+    var yearly_fentanyl_deaths = "-";
+    var yearly_heroin_deaths = "-";
+    var yearly_rx_deaths = "-";
+    var yearly_THN_kits_distributed = "-";
+    var kits_used = "-";  
+        
+    }    
+    
+    
+    var text = ("<br/>Total deaths: " + yearly_deaths);
+    text += ("<br/>Fentanyl deaths: " + yearly_fentanyl_deaths);
+    text += ("<br/>Heroin deaths: " + yearly_heroin_deaths);
+    text += ("<br/>prescriber-based kits deaths: " + yearly_rx_deaths);
+    text += ("<br/>community based program kits distributed: " + yearly_THN_kits_distributed);
+    text += ("<br/>Naloxone kits used: " + kits_used);
 
     return text;
 
@@ -101,11 +121,14 @@ function update(selectedGroup) {
     plot_5.updateData(state_selected);
     plot_6.updateData(state_selected);
 
+  }
+  
+  if(is_model_state(nns_data,selectedGroup)){
     // update non model div 
-    document.getElementById("non_model_note").style.display = "none";
+    document.getElementById("non_model_note").style.display = "none";    
   }else{
     // update non model div 
-    document.getElementById("non_model_note").style.display = "block";
+    document.getElementById("non_model_note").style.display = "block";    
   }
 
 }
@@ -141,3 +164,7 @@ d3.select("#selectButton").on("change", function(d) {
 
 
 });//all_states.csv
+
+var is_model_state = function(nns_data,state_selected){
+  return(nns_data[state_selected]["model_nonmodel"] == "model")
+}
