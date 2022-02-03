@@ -4,6 +4,8 @@ class PlotNNS {
 
 
   constructor(div_id, data, plot_key, xlabel, ylabel, init_state) {
+    
+    var short_ylabel = (ylabel == "Deaths averted")? "Deaths averted:":"Probability:";
 
     this.plot_w = 500;
     this.plot_h = 300;
@@ -86,7 +88,10 @@ class PlotNNS {
     }
 
     //var plot_data = this.data[this.cur_state][this.plot_key]["cf_vs_kits_dist"];
-
+    // Define the div for the tooltip
+    var div = d3.select("body").append("div")	
+        .attr("class", "tooltip")				
+        .style("opacity", 0);
 
     // Show confidence interval
     this.plot_CI = this.svg_plot
@@ -101,6 +106,7 @@ class PlotNNS {
                         .y1(function(d) { return y(Math.max(0, d.lc)); })
                       );
 
+
     // Add the line
     this.plot_curve = this.svg_plot
                         .append("path")
@@ -112,6 +118,66 @@ class PlotNNS {
                           .x(function(d) { return x(d.kits) })
                           .y(function(d) { return y(d.m) })
                         );
+                        
+    // Add hover box
+    var bisect_kits = d3.bisector(function(d) { return d.kits; }).left,
+        formatComma = d3.format(",.2r"),
+        formatPercent = d3.format(".0%");
+        
+    var formatY = (ylabel == "Deaths averted")? formatComma : formatPercent;
+    // create focus box 
+    var focus = this.svg_plot
+        .append("g")
+          .attr("class", "focus")
+          .style("display", "none");
+
+    focus.append("circle")
+        .attr("r", 5);
+
+    focus.append("rect")
+        .attr("class", "tooltip")
+        .attr("width", 150)
+        .attr("height", 50)
+        .attr("x", 10)
+        .attr("y", -22)
+        .attr("rx", 4)
+        .attr("ry", 4);
+
+    focus.append("text")
+        .attr("class", "tooltip-kits")
+        .attr("x", 18)
+        .attr("y", -2);
+
+    focus.append("text")
+        .attr("x", 18)
+        .attr("y", 18)
+        .text(short_ylabel);
+
+    focus.append("text")
+        .attr("class", "tooltip-da")
+        .attr("x", 120)
+        .attr("y", 18);
+        
+    // add hover listener    
+    this.svg_plot
+      .append("rect")
+      .attr("class", "overlay")
+      .attr("width", this.plot_w)
+      .attr("height", this.plot_h)
+      .on("mouseover", function() { focus.style("display", null); })
+      .on("mouseout", function() { focus.style("display", "none"); })
+      .on("mousemove", mousemove);
+      
+    function mousemove() {
+            var x0 = x.invert(d3.mouse(this)[0]),
+                i = bisect_kits(plot_data, x0, 1),
+                d0 = plot_data[i - 1],
+                d1 = plot_data[i],
+                d = x0 - d0.kits > d1.kits - x0 ? d1 : d0;
+            focus.attr("transform", "translate(" + x(d.kits) + "," + y(d.m) + ")");
+            focus.select(".tooltip-kits").text(formatComma(d.kits));
+            focus.select(".tooltip-da").text(formatComma(d.m));
+        }
 
 
 
@@ -169,6 +235,27 @@ class PlotNNS {
                      .x(function(d) { return x(d.kits); })
                      .y(function(d) { return y(d.m); })
                    );
+                   
+                   
+    this.svg_plot.selectAll("rect")
+      .on("mousemove", mousemove);
+      
+    var focus = this.svg_plot.selectAll(".focus");
+      
+    var bisect_kits = d3.bisector(function(d) { return d.kits; }).left,
+        formatComma = d3.format(",.2r"),
+        formatPercent = d3.format(".0%");
+      
+    function mousemove() {
+            var x0 = x.invert(d3.mouse(this)[0]),
+                i = bisect_kits(plot_data, x0, 1),
+                d0 = plot_data[i - 1],
+                d1 = plot_data[i],
+                d = x0 - d0.kits > d1.kits - x0 ? d1 : d0;
+            focus.attr("transform", "translate(" + x(d.kits) + "," + y(d.m) + ")");
+            focus.select(".tooltip-kits").text(formatComma(d.kits));
+            focus.select(".tooltip-da").text(formatComma(d.m));
+        }
 
   }
 

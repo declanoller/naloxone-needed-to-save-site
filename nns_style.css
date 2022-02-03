@@ -26,7 +26,6 @@ body {
 
 
 #header_links {
-  height: 40px;
 }
 
 
@@ -191,4 +190,26 @@ select::-ms-expand {
     -webkit-transition: .25s all ease;
     -o-transition: .25s all ease;
     transition: .25s all ease;
+}
+
+.overlay {
+    fill: none;
+    pointer-events: all;
+}
+
+.focus circle {
+    fill: steelblue;
+}
+
+.focus text {
+    font-size: 14px;
+}
+
+.tooltip {
+    fill: white;
+    stroke: #000;
+}
+
+.tooltip-kits, .tooltip-da {
+    font-weight: bold;
 }
