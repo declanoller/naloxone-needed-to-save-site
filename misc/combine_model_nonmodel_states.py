@@ -60,10 +60,12 @@ for state, state_dict in combined_dict.items():
 combined_dict = {k:v for k,v in combined_dict.items() if k not in drop_states}
 
 # add in any missing states from short counterfactuals dict
+# also add if nonmodel state
 for state, state_dict in short_dict.items():
-    if state not in combined_dict.keys():
+    if (state not in combined_dict.keys()) or (combined_dict[state]['model_nonmodel'] == 'nonmodel'):
         combined_dict[state] = state_dict
         combined_dict[state]['model_nonmodel'] = 'nonmodel'
+   
 
 # fix epidemic type issues
 for state, state_dict in combined_dict.items():
@@ -86,10 +88,18 @@ for state, state_dict in combined_dict.items():
             if isinstance(v, dict) and ("deaths_averted_" in k):
                 if 'cf_vs_kits_dist' in v.keys():
     
-                    for cf_dict in v['cf_vs_kits_dist']:
+                    for i, cf_dict in enumerate(v['cf_vs_kits_dist']):
                         for stat,cf_v in cf_dict.items():
-                            if stat != 'kits':
-                                cf_dict[stat] = pop * cf_v / 100000
+                                v['cf_vs_kits_dist'][i][stat] = pop * cf_v / 100000
+                                
+            # change kits per capita to total kits
+            elif isinstance(v, dict) and ("pNX_" in k):
+                if 'cf_vs_kits_dist' in v.keys():
+    
+                    for i, cf_dict in enumerate(v['cf_vs_kits_dist']):
+                        for stat,cf_v in cf_dict.items():
+                            if stat == 'kits':
+                                v['cf_vs_kits_dist'][i][stat] = pop * cf_v / 100000
 
 
 with open('../all_states.json', 'w+') as f:
