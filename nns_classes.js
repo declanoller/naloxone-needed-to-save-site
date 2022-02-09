@@ -122,7 +122,7 @@ class PlotNNS {
     // Add hover box
     var bisect_kits = d3.bisector(function(d) { return d.kits; }).left,
         formatComma = d3.format(",.2r"),
-        formatPercent = d3.format(".0%");
+        formatPercent = d3.format(".2r");
         
     var formatY = (ylabel == "Deaths averted")? formatComma : formatPercent;
     // create focus box 
@@ -136,16 +136,21 @@ class PlotNNS {
 
     focus.append("rect")
         .attr("class", "tooltip")
-        .attr("width", 150)
-        .attr("height", 50)
+        .attr("width", 200)
+        .attr("height", 75)
         .attr("x", 10)
         .attr("y", -22)
         .attr("rx", 4)
         .attr("ry", 4);
 
     focus.append("text")
-        .attr("class", "tooltip-kits")
         .attr("x", 18)
+        .attr("y", -2)
+        .text("Kits: ");
+
+    focus.append("text")
+        .attr("class", "tooltip-kits")
+        .attr("x", 50)
         .attr("y", -2);
 
     focus.append("text")
@@ -155,8 +160,8 @@ class PlotNNS {
 
     focus.append("text")
         .attr("class", "tooltip-da")
-        .attr("x", 120)
-        .attr("y", 18);
+        .attr("x", 18)
+        .attr("y", 38);
         
     // add hover listener    
     this.svg_plot
@@ -176,7 +181,7 @@ class PlotNNS {
                 d = x0 - d0.kits > d1.kits - x0 ? d1 : d0;
             focus.attr("transform", "translate(" + x(d.kits) + "," + y(d.m) + ")");
             focus.select(".tooltip-kits").text(formatComma(d.kits));
-            focus.select(".tooltip-da").text(formatComma(d.m));
+            focus.select(".tooltip-da").text(formatY(d.m) + "( 95% CrI: " + formatY(d.lc) + " - " + formatY(d.uc) + ")");
         }
 
 
@@ -244,7 +249,9 @@ class PlotNNS {
       
     var bisect_kits = d3.bisector(function(d) { return d.kits; }).left,
         formatComma = d3.format(",.2r"),
-        formatPercent = d3.format(".0%");
+        formatPercent = d3.format(".2r");
+    
+    var formatY = (this.ylabel == "Deaths averted")? formatComma : formatPercent;
       
     function mousemove() {
             var x0 = x.invert(d3.mouse(this)[0]),
@@ -254,7 +261,7 @@ class PlotNNS {
                 d = x0 - d0.kits > d1.kits - x0 ? d1 : d0;
             focus.attr("transform", "translate(" + x(d.kits) + "," + y(d.m) + ")");
             focus.select(".tooltip-kits").text(formatComma(d.kits));
-            focus.select(".tooltip-da").text(formatComma(d.m));
+            focus.select(".tooltip-da").text(formatY(d.m) + "( 95% CrI: " + formatY(d.lc) + " - " + formatY(d.uc) + ")");
         }
 
   }

@@ -49,14 +49,16 @@ d3.json("all_states.json", function(error, nns_data) {
     var statesWithData = Object.keys(nns_data);
 
     var state_selected = statesWithData[0];
-    var quick_info_title = "Quick stats: ";
+/*     
+var quick_info_title = "Quick stats: ";
     var state_sel = d3.select("#stats_state_label")
                     .append("text")
                     .text(quick_info_title + state_selected);
 
     var state_info = d3.select("#state_stats_overview")
                     .append("text")
-                    .html(stateStatsOverview(nns_data, state_selected));
+                    .html(stateStatsOverview(nns_data, state_selected)); 
+*/
 
 
 
@@ -109,8 +111,8 @@ function update(selectedGroup) {
 
     console.log('updating to state: ' + selectedGroup);
     state_selected = selectedGroup;
-    state_sel.text(quick_info_title + state_selected);
-    state_info.html(stateStatsOverview(nns_data, state_selected));
+    //state_sel.text(quick_info_title + state_selected);
+    //state_info.html(stateStatsOverview(nns_data, state_selected));
 
     d3.select('#selectButton').property('value', state_selected);
 
