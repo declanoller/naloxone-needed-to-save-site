@@ -24,8 +24,8 @@ function stateStatsOverview(data, state){
     var text = ("<br/>Total deaths: " + yearly_deaths);
     text += ("<br/>Fentanyl deaths: " + yearly_fentanyl_deaths);
     text += ("<br/>Heroin deaths: " + yearly_heroin_deaths);
-    text += ("<br/>prescriber-based kits deaths: " + yearly_rx_deaths);
-    text += ("<br/>community based program kits distributed: " + yearly_THN_kits_distributed);
+    text += ("<br/>Prescriber-based kits deaths: " + yearly_rx_deaths);
+    text += ("<br/>Community based program kits distributed: " + yearly_THN_kits_distributed);
     text += ("<br/>Naloxone kits used: " + kits_used);
 
     return text;
@@ -127,10 +127,10 @@ function update(selectedGroup) {
   
   if(is_model_state(nns_data,selectedGroup)){
     // update non model div 
-    document.getElementById("non_model_note").style.display = "none";    
+    //document.getElementById("non_model_note").style.display = "none";    
   }else{
     // update non model div 
-    document.getElementById("non_model_note").style.display = "block";    
+    //document.getElementById("non_model_note").style.display = "block";    
   }
 
 }

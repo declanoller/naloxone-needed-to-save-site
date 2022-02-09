@@ -122,7 +122,7 @@ class PlotNNS {
     // Add hover box
     var bisect_kits = d3.bisector(function(d) { return d.kits; }).left,
         formatComma = d3.format(",.2r"),
-        formatPercent = d3.format(".2r");
+        formatPercent = d3.round;
         
     var formatY = (ylabel == "Deaths averted")? formatComma : formatPercent;
     // create focus box 
@@ -249,7 +249,7 @@ class PlotNNS {
       
     var bisect_kits = d3.bisector(function(d) { return d.kits; }).left,
         formatComma = d3.format(",.2r"),
-        formatPercent = d3.format(".2r");
+        formatPercent = d3.round;
     
     var formatY = (this.ylabel == "Deaths averted")? formatComma : formatPercent;
       
