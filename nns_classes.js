@@ -131,37 +131,7 @@ class PlotNNS {
           .attr("class", "focus")
           .style("display", "none");
 
-    focus.append("circle")
-        .attr("r", 5);
-
-    focus.append("rect")
-        .attr("class", "tooltip")
-        .attr("width", 200)
-        .attr("height", 75)
-        .attr("x", 10)
-        .attr("y", -22)
-        .attr("rx", 4)
-        .attr("ry", 4);
-
-    focus.append("text")
-        .attr("x", 18)
-        .attr("y", -2)
-        .text("Kits: ");
-
-    focus.append("text")
-        .attr("class", "tooltip-kits")
-        .attr("x", 50)
-        .attr("y", -2);
-
-    focus.append("text")
-        .attr("x", 18)
-        .attr("y", 18)
-        .text(short_ylabel);
-
-    focus.append("text")
-        .attr("class", "tooltip-da")
-        .attr("x", 18)
-        .attr("y", 38);
+    create_focus_text(focus,true,short_ylabel);
         
     // add hover listener    
     this.svg_plot
@@ -246,6 +216,8 @@ class PlotNNS {
       .on("mousemove", mousemove);
       
     var focus = this.svg_plot.selectAll(".focus");
+    var plot_w = this.plot_w;
+    var short_ylabel = (this.ylabel == "Deaths averted")? "Deaths averted:":"Probability:";
       
     var bisect_kits = d3.bisector(function(d) { return d.kits; }).left,
         formatComma = d3.format(",.2r"),
@@ -259,6 +231,8 @@ class PlotNNS {
                 d0 = plot_data[i - 1],
                 d1 = plot_data[i],
                 d = x0 - d0.kits > d1.kits - x0 ? d1 : d0;
+            focus.html('');
+            create_focus_text(focus,(x(d.kits) < plot_w/2),short_ylabel);
             focus.attr("transform", "translate(" + x(d.kits) + "," + y(d.m) + ")");
             focus.select(".tooltip-kits").text(formatComma(d.kits));
             focus.select(".tooltip-da").text(formatY(d.m) + "( 95% CrI: " + formatY(d.lc) + " - " + formatY(d.uc) + ")");
@@ -268,4 +242,39 @@ class PlotNNS {
 
 
 
+}
+
+function create_focus_text(focus,right,short_ylabel){
+  var xtranslate = (right)? 0:- 200 - 18;
+  focus.append("circle")
+  .attr("r", 5);
+
+  focus.append("rect")
+    .attr("class", "tooltip")
+    .attr("width", 200)
+    .attr("height", 75)
+    .attr("x", 10 + xtranslate)
+    .attr("y", -22)
+    .attr("rx", 4)
+    .attr("ry", 4);
+
+  focus.append("text")
+    .attr("x", 18 + xtranslate)
+    .attr("y", -2)
+    .text("Kits: ");
+
+  focus.append("text")
+    .attr("class", "tooltip-kits")
+    .attr("x", 50 + xtranslate)
+    .attr("y", -2);
+
+  focus.append("text")
+    .attr("x", 18 + xtranslate)
+    .attr("y", 18)
+    .text(short_ylabel);
+
+  focus.append("text")
+    .attr("class", "tooltip-da")
+    .attr("x", 18 + xtranslate)
+    .attr("y", 38);
 }
